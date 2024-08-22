@@ -8,9 +8,15 @@ const TodoList = () => {
 
     const handleAddTodo = () => {
         if (headingInput.trim() !== '') {
-            setTodos([...todos, {heading: headingInput, list: []}]);
+            setTodos([...todos, { heading: headingInput, lists: [] }]);
             setHeadingInput('');
         }
+    };
+
+    const handleDeleteTodo = (index) => {
+        const newTodos = [...todos];
+        newTodos.splice(index, 1);
+        setTodos(newTodos);
     };
 
     const handleAddList = (index) => {
@@ -18,12 +24,12 @@ const TodoList = () => {
             const newTodos = [...todos];
             newTodos[index].lists.push(listInputs[index]);
             setTodos(newTodos);
-            setListInputs({...listInputs, [index]: ''});
+            setListInputs({ ...listInputs, [index]: '' });
         }
     };
 
     const handleListInputChange = (index, value) => {
-        setListInputs({...listInputs, [index]: value});
+        setListInputs({ ...listInputs, [index]: value });
     };
 
     return (
@@ -36,7 +42,7 @@ const TodoList = () => {
                         className="heading-input"
                         placeholder="Enter heading"
                         value={headingInput}
-                        onChange={(e) => {setHeadingInput(e.target.value);}}
+                        onChange={(e) => setHeadingInput(e.target.value)}
                     />
                     <button className="add-list-button" onClick={handleAddTodo}>Add Heading</button>
                 </div>
@@ -46,16 +52,16 @@ const TodoList = () => {
                     <div key={index} className="todo-card">
                         <div className="heading_todo">
                             <h3>{todo.heading}</h3>
-                            <button className="delete-button-heading">Delete Heading</button>
+                            <button className="delete-button-heading" onClick={() => handleDeleteTodo(index)}>Delete Heading</button>
                         </div>
                         <ul>
                             {todo.lists.map((list, listIndex) => (
-                                <li key={listIndex} className="todo_inside_list">
+                                <li key={listIndex} className='todo_inside_list'>
                                     <p>{list}</p>
                                 </li>
                             ))}
                         </ul>
-                        <div className="add_list">
+                        <div className='add_list'>
                             <input
                                 type="text"
                                 className="list-input"
@@ -66,7 +72,7 @@ const TodoList = () => {
                             <button className="add-list-button" onClick={() => handleAddList(index)}>Add List</button>
                         </div>
                     </div>
-                ))}        
+                ))}
             </div>
         </>
     );
